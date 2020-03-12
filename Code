@@ -6,9 +6,17 @@ from sklearn.ensemble import RandomForestClassifier
 
 d = pd.read_excel("prepared_data.xlsx", sheet_name="S&P 500").values
 x = pd.DataFrame(np.array(d[:,1:17], dtype=float), index=d[:,0])
-y = pd.DataFrame(np.array(d[:,18:], dtype=float), index=d[:,17])
+y = pd.DataFrame(np.array(d[:,18], dtype=float), index=d[:,17])
+
+test = pd.read_excel("prepared_data.xlsx", sheet_name="HSI").values
+x_test = pd.DataFrame(np.array(d[:,1:17], dtype=float), index=d[:,0])
+y_test = pd.DataFrame(np.array(d[:,18], dtype=float), index=d[:,17])
+
 
 clf=   RandomForestClassifier(n_estimators=100)
-model = clf.fit(x, y)
-parameter = model.get_params()
-#y_pred=clf.predict(X_Test)
+clf.fit(x, y)
+y_pred=clf.predict(x_test)
+
+y_test = y_test.values
+
+fehler = np.sum(y_pred.reshape(y_test.shape[0],1)-y_test)
