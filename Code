@@ -9,8 +9,8 @@ x = pd.DataFrame(np.array(d[:,1:17], dtype=float), index=d[:,0])
 y = pd.DataFrame(np.array(d[:,18], dtype=float), index=d[:,17])
 
 test = pd.read_excel("prepared_data.xlsx", sheet_name="HSI").values
-x_test = pd.DataFrame(np.array(d[:,1:17], dtype=float), index=d[:,0])
-y_test = pd.DataFrame(np.array(d[:,18], dtype=float), index=d[:,17])
+x_test = pd.DataFrame(np.array(test[:,1:17], dtype=float), index=d[:,0])
+y_test = pd.DataFrame(np.array(test[:,18], dtype=float), index=d[:,17])
 
 
 clf=   RandomForestClassifier(n_estimators=100)
