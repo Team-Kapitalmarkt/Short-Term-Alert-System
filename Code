@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-
 from sklearn.ensemble import RandomForestClassifier
 
 d = pd.read_excel("prepared_data.xlsx", sheet_name="S&P 500").values
@@ -12,11 +11,17 @@ test = pd.read_excel("prepared_data.xlsx", sheet_name="HSI").values
 x_test = pd.DataFrame(np.array(test[:,1:17], dtype=float), index=test[:,0])
 y_test = pd.DataFrame(np.array(test[:,18], dtype=float), index=test[:,17])
 
-
 clf=   RandomForestClassifier(n_estimators=100)
 clf.fit(x, y)
 y_pred=clf.predict(x_test)
 
-y_test = y_test.values
 
-fehler = np.sum(y_pred.reshape(y_test.shape[0],1)-y_test)
+y_pred = pd.DataFrame(y_pred, index=y_test.index)
+
+hsi = pd.read_excel("data.xlsx", sheet_name="Tabelle1")
+hsi = hsi.loc[:,"Unnamed: 6":"HSI"]
+hsi = pd.DataFrame(np.array(hsi.values[:,1], dtype=float), index=hsi.iloc[:,0]).dropna()
+hsi = hsi.loc["1988-01-22": "2019-08-14"]
+
+plt.plot(hsi)
+plt.plot(y_pred*30000)
